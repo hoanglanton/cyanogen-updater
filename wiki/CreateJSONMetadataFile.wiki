@@ -1,6 +1,6 @@
 #summary Howto create your own Metadata File
 
-= Howto =
+= Howto create your own Metadata File for CM-Updater =
 
 Just create an empty xxx.json File on your Computer.
  Currently the Format of the File must be the following:
