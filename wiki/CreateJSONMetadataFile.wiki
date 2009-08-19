@@ -58,5 +58,6 @@ MD5File: http://n0rp.chemlab.org/android/update-cm-3.9.7-signed.zip.md5sum
 
 The easiest way to give the Link to your own JSON to the Users is to use a 2D Barcode.
 Here is a page to create one:
+http://qrcode.kaywa.com/
 
-The the user has to open Settings-->Update Server-->Scan QR URL, and te next Time he does a check now, your Updates will show up. At this Time you can only have 1 MetadataFile, so the User has to switch the URL each Time.
+The the user has to open Settings-->Update Server-->Scan QR URL, and te next Time he does a check now, your Updates will show up. At this Time you can only have 1 !MetadataFile, so the User has to switch the URL each Time.
