@@ -1030,7 +1030,7 @@ public class UpdateProcessInfo extends IUpdateProcessInfo
 			s2.setBackgroundDrawable(res.getDrawable(R.drawable.background));
 		}
 			
-		if(availableUpdates != null)
+		if(mAvailableUpdates != null)
 		{
 			selectUploadButton.setOnClickListener(mSelectUpdateButtonListener);
 			changelogButton.setOnClickListener(mChangelogButtonListener);
@@ -1038,7 +1038,7 @@ public class UpdateProcessInfo extends IUpdateProcessInfo
 			UpdateListAdapter<UpdateInfo> spAdapter = new UpdateListAdapter<UpdateInfo>(
 					this,
 					android.R.layout.simple_spinner_item,
-					availableUpdates);
+					mAvailableUpdates);
 			spAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 			sp.setAdapter(spAdapter);
 
