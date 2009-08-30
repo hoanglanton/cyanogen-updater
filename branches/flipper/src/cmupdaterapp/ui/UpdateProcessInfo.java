@@ -585,31 +585,6 @@ public class UpdateProcessInfo extends IUpdateProcessInfo
 		mUpdateFolder = new File(Environment.getExternalStorageDirectory() + "/" + Preferences.getPreferences(this).getUpdateFolder());
 
 		mUpdateDownloaderServiceIntent = new Intent(this, UpdateDownloaderService.class);
-		
-		setContentView(R.layout.update_chooser);
-		flipper=(ViewFlipper)findViewById(R.id.Flipper);
-		flipper.setInAnimation(AnimationUtils.loadAnimation(this, R.anim.push_left_in));
-		flipper.setOutAnimation(AnimationUtils.loadAnimation(this, R.anim.push_left_out));
-		Button btn=(Button)findViewById(R.id.button_available_updates);
-		btn.setOnClickListener(new View.OnClickListener()
-		{
-			public void onClick(View view)
-			{
-				Log.d(TAG, "Show next");
-				if(flipper.getDisplayedChild() != 0)
-					flipper.setDisplayedChild(0);
-			}
-		});
-		Button btn2=(Button)findViewById(R.id.button_existing_updates);
-		btn2.setOnClickListener(new View.OnClickListener()
-		{
-			public void onClick(View view)
-			{
-				Log.d(TAG, "Show next");
-				if(flipper.getDisplayedChild() != 1)
-					flipper.setDisplayedChild(1);
-			}
-		});
 	}
 
 	/* (non-Javadoc)
@@ -977,7 +952,31 @@ public class UpdateProcessInfo extends IUpdateProcessInfo
 			mAvailableUpdates = availableUpdates;
 		}
 
-		//setContentView(R.layout.update_chooser);
+		setContentView(R.layout.update_chooser);
+		flipper=(ViewFlipper)findViewById(R.id.Flipper);
+		flipper.setInAnimation(AnimationUtils.loadAnimation(this, R.anim.push_left_in));
+		flipper.setOutAnimation(AnimationUtils.loadAnimation(this, R.anim.push_left_out));
+		Button btn=(Button)findViewById(R.id.button_available_updates);
+		btn.setOnClickListener(new View.OnClickListener()
+		{
+			public void onClick(View view)
+			{
+				Log.d(TAG, "Show next");
+				if(flipper.getDisplayedChild() != 0)
+					flipper.setDisplayedChild(0);
+			}
+		});
+		Button btn2=(Button)findViewById(R.id.button_existing_updates);
+		btn2.setOnClickListener(new View.OnClickListener()
+		{
+			public void onClick(View view)
+			{
+				Log.d(TAG, "Show next");
+				if(flipper.getDisplayedChild() != 1)
+					flipper.setDisplayedChild(1);
+			}
+		});
+
 		((NotificationManager)getSystemService(NOTIFICATION_SERVICE)).cancel(R.string.not_new_updates_found_title);
 		
 		Resources res = getResources();
