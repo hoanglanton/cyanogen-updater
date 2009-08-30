@@ -952,20 +952,20 @@ public class UpdateProcessInfo extends IUpdateProcessInfo
 			mAvailableUpdates = availableUpdates;
 		}
 
-		if(mTabHost!=null)
-			mTabHost.clearAllTabs();
+		if(mTabHost==null)
+		{
+			mTabHost = getTabHost();
+			LayoutInflater.from(this).inflate(R.layout.main, mTabHost.getTabContentView(), true);
+	
+			mTabHost.addTab(mTabHost.newTabSpec("tab1")
+					.setIndicator("tab1")
+					.setContent(R.id.ScrollUpdateDownloader));
+			mTabHost.addTab(mTabHost.newTabSpec("tab3")
+					.setIndicator("tab2")
+					.setContent(R.id.ScrollApplyExisting));
+			mTabHost.setCurrentTab(0);
+		}
 		
-		mTabHost = getTabHost();
-		LayoutInflater.from(this).inflate(R.layout.main, mTabHost.getTabContentView(), true);
-
-		mTabHost.addTab(mTabHost.newTabSpec("tab1")
-				.setIndicator("tab1")
-				.setContent(R.id.ScrollUpdateDownloader));
-		mTabHost.addTab(mTabHost.newTabSpec("tab3")
-				.setIndicator("tab2")
-				.setContent(R.id.ScrollApplyExisting));
-		mTabHost.setCurrentTab(0);
-	    
 		((NotificationManager)getSystemService(NOTIFICATION_SERVICE)).cancel(R.string.not_new_updates_found_title);
 		
 		Resources res = getResources();
