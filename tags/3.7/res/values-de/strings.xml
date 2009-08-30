@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+    <!-- .ui.* Strings -->
+    <string name="apply_now_button_text">Jetzt anwenden</string>
+    <string name="apply_later_button_text">Später anwenden</string>
+    <string name="apply_update_button_text">Update Installieren</string>
+    <string name="apply_title_textview_text">{0} ist bereit um installiert zu werden</string>
+    <string name="apply_subtitle_textview_text">Release notes:</string>
+    <string name="apply_unable_to_reboot_toast">Fehler beim rebooten in den recovery modus</string>
+    <string name="apply_trying_to_get_root_access">Versuche root Rechte zu bekommen, um in den recovery modus zu booten</string>
+    
+    <string name="available_updates_text">Bitte einen ROM zum Download auswählen:</string>
+    <string name="choose_available_update_text">Download</string>
+    <string name="no_updates_found_instructions">Keine ROMs gefunden.\nDrücken sie \'Jetzt prüfen\' um manuell nach neuen Updates zu suchen.</string>
+    <string name="downloaded_update_found_text">Updates im Update Verzeichnis:</string>
+    <string name="checking_for_updates">Überprüfe auf neue Updates</string>
+    <string name="downloading_update">Downloade Update</string>
+    <string name="sdcard_is_not_present_dialog_body">Sie brauchen eine beschreibbare SDKarte um das Update downzuloaden.</string>
+    <string name="sdcard_is_not_present_dialog_title">Keine SDKarte gefunden</string>
+    <string name="sdcard_is_not_present_dialog_ok_button">Ok</string>
+    <string name="current_version_text">Derzeitige Version: {0}</string>
+    <string name="delete_updates_text">Alle Updates löschen</string>
+    <string name="delete_updates_success_message">Update Verzeichnis gelöscht</string>
+    <string name="delete_updates_failure_message">Fehler beim Löschen des Update Verzeichnisses</string>
+    <string name="delete_updates_noFolder_message">Update Verzeichnis nicht gefunden</string>
+    
+    <string name="apply_update_dialog_title">Bestätigung</string>
+    <string name="apply_update_dialog_text">Sie sind dabei auf {0} zu aktualisieren.\nWenn sie Update drücken, wird das Telefon automatisch in den recovery Modus rebooten um das Update zu installieren.</string>
+	<string name="apply_update_dialog_update_button">Update</string>
+	<string name="apply_update_dialog_backup_and_update_button">Backup &amp; Installieren</string>
+	<string name="apply_update_dialog_cancel_button">Abbrechen</string>
+	
+	<string name="no_updates_no_mod_text">Ihr System läuft auf einer nicht unterstützen Version (Version {0}).</string>
+	<string name="check_now_button_text">Jetzt Prüfen</string>
+	
+	<string name="menu_check_now">Jetzt Prüfen</string>
+	<string name="menu_qr_code">QR URL Scannen</string>
+    <string name="menu_config">Konfiguration</string>
+    <string name="menu_about">About</string>
+    <string name="menu_changelog">Changelog</string>
+    <string name="cancel_download_buton_text">Download Abbrechen</string>
+    <string name="confirm_download_cancelation_dialog_message">Wollen sie den derzeitigen Download wirklich abbrechen?</string>
+    <string name="confirm_download_cancelation_dialog_yes">Ja</string>
+    <string name="confirm_download_cancelation_dialog_no">Nein</string>
+    <string name="download_canceled_toast_message">Download abgebrochen</string>
+    
+    <string name="verify_and_apply_dialog_title">Überprüfen</string>
+    <string name="verify_and_apply_dialog_message">Überprüfe MD5 Checksumme des Updates</string>
+    
+    <string name="apply_existing_update_md5error_message">Fehler. MD5 Checksumme falsch</string>
+    
+    <string name="apply_upload_info_message">Diese Version von CM-Updater hat eine reboot Option. When sie auf Update drücken, wird ihr System automatisch neu gestartet.
+Wenn sie ein Backup erstellen wollen, booten sie bitte vorher manuell in den Recovery Modus</string>
+    
+    <string name="last_update_check_text">Letzer Update check</string>
+	<string name="overwrite_update_title">Update existiert</string>
+	<string name="overwrite_update_summary">Das gewählte Update existiert bereits in ihrem Update Verzeichnis.\nWollen sie es überschreiben?</string>
+	<string name="overwrite_update_positive">Ja</string>
+	<string name="overwrite_update_negative">Nein</string>
+
+	<string name="no_md5_found_title">Keine MD5-Datei gefunden</string>
+	<string name="no_md5_found_summary">Keine MD5 Datei für dieses Update gefunden.\nWollen sie es ohne Überprüfung installieren?</string>
+	<string name="no_md5_found_positive">Installieren</string>
+	<string name="no_md5_found_negative">Abbrechen</string>
+
+	<string name="notification_tickertext">Downloade Update</string>
+	<string name="notification_finished">Download abgeschlossen</string>
+
+	<string name="toast_uninstall_old_Version">Sie müssen die alte Version der Applikation deinstallieren um fortfahren zu können!</string>
+
+	<string name="stable_description"> = Stable</string>
+	<string name="experimental_description"> = Experimental</string>
+
+	<string name="changelog_progress_title">Bitte warten ...</string>
+	<string name="changelog_progress_body">Versuche changelog.xml herunterzuladen</string>
+
+	<string name="changelog_button_text">Changelog vom ausgewählten update</string>
+	<string name="no_changelog_found">Kein Changelog gefunden</string>
+
+    <string name="changelog_title_rom">Update Changelog</string>
+    <string name="changelog_title_app">Applikations Changelog</string>
+
+	<string name="true_string">ja</string>
+	<string name="false_string">nein</string>
+	
+	<string name="md5_check_cancelled">MD5 Überprüfung Abgebrochen</string>
+    
+    <!-- .service.* Strings -->
+    <string name="no_updates_found">Keine CM Updates gefunden</string>
+    <string name="not_new_updates_found_ticker">Neue CM Updates gefunden!</string>
+    <string name="not_new_updates_found_title">Neue CM Updates gefunden</string>
+    <string name="exception_while_updating">Ein Fehler ist aufgetreten, als versucht wurde den CM Update Server zu kontaktieren</string>
+    <string name="exception_while_downloading">Ein Fehler ist beim Download eines CM Update aufgetreten</string>
+    
+    <string name="not_update_check_error_ticker">Fehler beim Überprüfen auf CM updates</string>
+    <string name="not_update_check_error_title">Derzeit nicht möglich auf neue CM OS Updates zu überprüfen</string>
+    <string name="not_update_check_error_body">Bitte probieren sie es später noch einmal.</string>
+    
+    <string name="not_update_download_error_ticker">Es ist ein Fehler beim Downloaden des Updates aufgetreten</string>
+    <string name="not_update_download_error_title">Es ist ein Fehler beim Downloaden des Updates aufgetreten</string>
+    <string name="not_update_download_error_body">Bitte probieren sie es später noch einmal.</string>
+    
+    <string name="not_update_downloaded_ticker">CyanogenMod Update heruntergeladen</string>
+    <string name="not_update_downloaded_title">CyanogenMod Update heruntergeladen</string>
+    <string name="not_update_downloaded_body">{0} ist bereit zur Installation</string>
+    
+    <string name="download_info_filename">Dateiname: </string>
+    <string name="download_info_mirror">Mirror: </string>
+    <string name="download_info_downloading">Downloade...</string>
+    <string name="download_info_speed">Geschwindigkeit: </string>
+    <string name="download_info_remaining_time">Verbleibende Zeit: </string>
+    
+    <string name="confirm_delete_update_folder_dialog_message">Update Verzeichnis löschen?</string>
+    <string name="confirm_delete_update_folder_dialog_yes">Alle Updates löschen</string>
+    <string name="confirm_delete_update_folder_dialog_neutral">Ausgewähltes Update löschen</string>
+    <string name="confirm_delete_update_folder_dialog_no">Abbrechen</string>
+    <string name="delete_single_update_success_message">Update {0} gelöscht</string>
+    
+    <string name="minutes">min</string>
+	<string name="seconds">sek</string>
+    
+    <!-- Preferences Strings -->
+    <string name="p_update_check_freq_title">Updateprüfungs Intervall</string>
+    <string name="p_update_check_freq_summary">Stellt das Intervall ein, in dem nach neuen Updates gesucht werden soll</string>
+    
+    <string name="p_update_file_url_title">Update Datei</string>
+    <string name="p_update_file_url_summary">URL für die Metadatendatei einstellen</string>
+    <string name="p_update_file_url_changed">Update URL zurückgesetzt</string>
+    
+    <string name="p_updates_mod_version_title">System Mod Version</string>
+    <string name="p_updates_mod_version_summary">Zu welcher mod version wollen sie Updates erhalten?</string>
+    
+    <string name="p_display_older_mod_versions_title">Downgrades anzeigen</string>
+    <string name="p_display_older_mod_versions_summary">Updates von älteren Versionen anzeigen (Nötig um Downzugraden)</string>
+    <string name="p_display_older_mod_versions_changed">Bitte erneut auf Updates prüfen, um die Liste der verfügbaren Updates zu aktualisieren</string>
+    
+    <string name="p_display_allow_experimental_versions_title">Entwickler Versionen</string>
+    <string name="p_display_allow_experimental_versions_summary">Entwickler Versionen anzeigen (non-stable)</string>
+    <string name="p_display_allow_experimental_versions_changed">Bitte erneut auf Updates prüfen, um die Liste der verfügbaren Updates zu aktualisieren</string>
+    
+    <string name="p_do_nandroid_backup_title">Nandroid Backup</string>
+    <string name="p_do_nandroid_backup_summary">Nandroid backup vor Update durchführen?</string>
+    
+    <string name="p_notification_ringtone_title">Benachrichtigungston</string>
+    <string name="p_notification_ringtone_summary">Wählen sie einen Rufton der abgespielt werden soll, wenn neue Updates verfügbar sind</string>
+    
+    <string name="p_update_file_url_screen_title">Update Server</string>
+    <string name="p_update_file_url_screen_summary">Den Update Server ändern</string>
+    
+    <string name="p_update_file_url_def_title">Update Server URL Zurücksetzen</string>
+    <string name="p_update_file_url_def_summary">Setzt die URL auf die Standardeinstellung zurück</string>
+    
+    <string name="p_update_file_url_qr_title">Barcode scannen</string>
+    <string name="p_update_file_url_qr_summary">QR Code für Update URL scannen</string>
+    
+    <string name="p_vibrate_title">Vibrieren</string>
+	<string name="p_vibrate_summary">Bei Benachrichtigungen Vibrieren</string>
+
+	<string name="p_notifications_title">Benachrichtigungen</string>
+	<string name="p_notifications_summary">Benachrichtigungen ein/ausschalten</string>
+
+	<string name="p_advanced_title">Erweiterte Einstellungen</string>
+	<string name="p_advanced_summary">Nur ändern, wenn auch die Folgen bewusst sind!</string>
+
+	<string name="p_progress_update_frequency_title">Fortschritts Update Intervall</string>
+	<string name="p_progress_update_frequency_summary">Hoher Wert --> Weniger updates\nNiedriger Wert --> Mehr updates</string>
+
+	<string name="p_progress_update_freq_def_title">Update Intervall zurücksetzen</string>
+	<string name="p_progress_update_freq_def_summary">Das Update Intervall von Downloaddialog/Notificationbar zurücksetzen</string>
+	<string name="p_progress_update_freq_def_toast">Update Intervall zurückgesetzt</string>
+</resources>
