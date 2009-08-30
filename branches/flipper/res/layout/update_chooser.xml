@@ -15,19 +15,19 @@
 	    	android:layout_height="wrap_content"
 	    	android:gravity="center_horizontal">
 	    	<Button
-	    	android:id="@+id/button_available_updates"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:text="Available Updates"
-			android:layout_marginTop="20sp"
-		    style="@style/TextAppearance.Button"/>	
-	    	    <Button
-	    	android:id="@+id/button_existing_updates"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:text="Existing Updates"
-			android:layout_marginTop="20sp"
-		    style="@style/TextAppearance.Button"/>
+	    		android:id="@+id/button_available_updates"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="@string/button_available_updates"
+				android:layout_marginTop="20sp"
+		    	style="@style/TextAppearance.Button"/>	
+			<Button
+	    		android:id="@+id/button_existing_updates"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="@string/button_existing_updates"
+				android:layout_marginTop="20sp"
+		    	style="@style/TextAppearance.Button"/>
 	    </LinearLayout>
 	    <ViewFlipper
 	    	android:id="@+id/Flipper"
@@ -118,6 +118,34 @@
 					android:layout_marginTop="20sp"
 				    style="@style/TextAppearance.Button"
 				    android:drawableLeft="@drawable/check_now"/>
+				<TextView
+				    android:id="@+id/last_update_check"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginTop="10px"
+					android:layout_marginRight="10px"
+					android:layout_gravity="bottom|right" />
+				<TextView
+			    	android:id="@+id/experimental_updates_textview"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginTop="10px"
+					android:layout_marginRight="10px"
+					android:layout_gravity="bottom|right" />
+				<TextView
+			    	android:id="@+id/show_downgrades_textview"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginTop="10px"
+					android:layout_marginRight="10px"
+					android:layout_gravity="bottom|right" />
+				<TextView
+				    android:id="@+id/up_chooser_current_version"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginTop="10px"
+					android:layout_marginRight="10px"
+					android:layout_gravity="bottom|right" />
 			</LinearLayout>
 			<LinearLayout 
 		    	android:orientation="vertical"
@@ -150,34 +178,6 @@
 					android:text="@string/delete_updates_text"
 				    style="@style/TextAppearance.Button"
 				    android:drawableLeft="@drawable/check_now" />
-				<TextView
-				    android:id="@+id/last_update_check"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_marginTop="10px"
-					android:layout_marginRight="10px"
-					android:layout_gravity="bottom|right" />
-				<TextView
-			    	android:id="@+id/experimental_updates_textview"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_marginTop="10px"
-					android:layout_marginRight="10px"
-					android:layout_gravity="bottom|right" />
-				<TextView
-			    	android:id="@+id/show_downgrades_textview"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_marginTop="10px"
-					android:layout_marginRight="10px"
-					android:layout_gravity="bottom|right" />
-				<TextView
-				    android:id="@+id/up_chooser_current_version"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_marginTop="10px"
-					android:layout_marginRight="10px"
-					android:layout_gravity="bottom|right" />
 			</LinearLayout>
 		</ViewFlipper>
 	</LinearLayout>
