@@ -10,8 +10,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.net.MalformedURLException;
-import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URI;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -43,6 +43,7 @@ import android.os.IBinder;
 import android.os.Message;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -951,15 +952,19 @@ public class UpdateProcessInfo extends IUpdateProcessInfo
 			mAvailableUpdates = availableUpdates;
 		}
 
-		//setContentView(R.layout.update_chooser);
-		setContentView(R.layout.main);
-		if(mTabHost == null)
-		{
-			mTabHost = getTabHost();
-		    mTabHost.addTab(mTabHost.newTabSpec("tab_test1").setIndicator("TAB 1").setContent(R.id.ScrollUpdateDownloader));
-		    mTabHost.addTab(mTabHost.newTabSpec("tab_test2").setIndicator("TAB 2").setContent(R.id.ScrollApplyExisting));
-		    mTabHost.setCurrentTab(0);
-		}
+		if(mTabHost!=null)
+			mTabHost.clearAllTabs();
+		
+		mTabHost = getTabHost();
+		LayoutInflater.from(this).inflate(R.layout.main, mTabHost.getTabContentView(), true);
+
+		mTabHost.addTab(mTabHost.newTabSpec("tab1")
+				.setIndicator("tab1")
+				.setContent(R.id.ScrollUpdateDownloader));
+		mTabHost.addTab(mTabHost.newTabSpec("tab3")
+				.setIndicator("tab2")
+				.setContent(R.id.ScrollApplyExisting));
+		mTabHost.setCurrentTab(0);
 	    
 		((NotificationManager)getSystemService(NOTIFICATION_SERVICE)).cancel(R.string.not_new_updates_found_title);
 		
