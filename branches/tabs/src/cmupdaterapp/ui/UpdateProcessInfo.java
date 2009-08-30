@@ -905,7 +905,16 @@ public class UpdateProcessInfo extends IUpdateProcessInfo
 	public void switchToDownloadingLayout(UpdateInfo downloadingUpdate)
 	{
 		bindService(mUpdateDownloaderServiceIntent, mUpdateDownloaderServiceConnection, Context.BIND_AUTO_CREATE);
-		setContentView(R.layout.update_download_info);
+		//setContentView(R.layout.update_download_info);
+		if(mTabHost != null)
+			mTabHost.clearAllTabs();
+		mTabHost = getTabHost();
+		LayoutInflater.from(this).inflate(R.layout.update_download_info, mTabHost.getTabContentView(), true);
+	
+		mTabHost.addTab(mTabHost.newTabSpec("tab1")
+				.setIndicator("tab1")
+				.setContent(R.id.mainLinear));
+		mTabHost.setCurrentTab(0);
 		try
 		{
 			String[] temp = downloadingUpdate.updateFileUris.get(0).toURL().getFile().split("/");
@@ -952,19 +961,18 @@ public class UpdateProcessInfo extends IUpdateProcessInfo
 			mAvailableUpdates = availableUpdates;
 		}
 
-		if(mTabHost==null)
-		{
-			mTabHost = getTabHost();
-			LayoutInflater.from(this).inflate(R.layout.main, mTabHost.getTabContentView(), true);
+		if(mTabHost!=null)
+			mTabHost.clearAllTabs();
+		mTabHost = getTabHost();
+		LayoutInflater.from(this).inflate(R.layout.main, mTabHost.getTabContentView(), true);
 	
-			mTabHost.addTab(mTabHost.newTabSpec("tab1")
-					.setIndicator("tab1")
-					.setContent(R.id.ScrollUpdateDownloader));
-			mTabHost.addTab(mTabHost.newTabSpec("tab3")
-					.setIndicator("tab2")
-					.setContent(R.id.ScrollApplyExisting));
-			mTabHost.setCurrentTab(0);
-		}
+		mTabHost.addTab(mTabHost.newTabSpec("tab1")
+				.setIndicator("tab1")
+				.setContent(R.id.ScrollUpdateDownloader));
+		mTabHost.addTab(mTabHost.newTabSpec("tab3")
+				.setIndicator("tab2")
+				.setContent(R.id.ScrollApplyExisting));
+		mTabHost.setCurrentTab(0);
 		
 		((NotificationManager)getSystemService(NOTIFICATION_SERVICE)).cancel(R.string.not_new_updates_found_title);
 		
