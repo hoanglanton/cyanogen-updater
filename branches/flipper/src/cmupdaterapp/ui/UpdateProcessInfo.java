@@ -596,7 +596,8 @@ public class UpdateProcessInfo extends IUpdateProcessInfo
 			public void onClick(View view)
 			{
 				Log.d(TAG, "Show next");
-				flipper.setDisplayedChild(0);
+				if(flipper.getDisplayedChild() != 0)
+					flipper.setDisplayedChild(0);
 			}
 		});
 		Button btn2=(Button)findViewById(R.id.button_existing_updates);
@@ -605,7 +606,8 @@ public class UpdateProcessInfo extends IUpdateProcessInfo
 			public void onClick(View view)
 			{
 				Log.d(TAG, "Show next");
-				flipper.setDisplayedChild(1);
+				if(flipper.getDisplayedChild() != 1)
+					flipper.setDisplayedChild(1);
 			}
 		});
 	}
