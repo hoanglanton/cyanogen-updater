@@ -38,17 +38,30 @@ Just create an empty xxx.json File on your Computer.
 }
 }}}
 
-
+= For ROM Updates =
   * Mirrorlist: Add your downloadurls here
   * !UpdateList: Every new Update gets a entry here (the part within the `{ }`)
    # *mod:* Always put ADP1 in here, so the old Versions (<2.0) of CM-Updater can read the Updates
-   # *board:* The Phone for which the ROM/Theme was designed. Multiple boards possible. in Example: trout|sapphire will show this Update only to Dream and Sapphire Users. You can get the value from /system/build.prop Valuename: ro.product.board. This is only supported since Version 3 of the App.
-   # *type:* This string isn't used by this time, but you can put the string theme or rom in it to get it works with future releases
+   # *board:* The Phone for which the ROM was designed. Multiple boards possible. in Example: trout|sapphire will show this Update only to Dream and Sapphire Users. You can get the value from /system/build.prop Valuename: ro.product.board. This is only supported since Version 3 of the App.
+   # *type:* Must be "rom" for ROM Updates
    # *name:* The Name of the Update that shows up in the Dropdownlist of available Updates in the App
-   # *version:*  The Version, the ro.modversion String gets compared to. Sorry Theme developers but at this time, you have to make the Version greater then the supported rom type. When the User is running Cyanogen 4.0.1, the ro.modversion String will read !CyanogenMod-4.0.1. We strip the Version from this String and compare it to the Version provided in the Metadata File. So i recommend for Themes created for cm 4.0.1 use the Version 4.0.1.1 or so. So this will show up as a Update on cm4.0.1, but not on 4.0.2, because the 4.0.2 would be a newer Version.
-   # *description:* Here you can put a little Description of you Update. This String is currently not used, but will be in Future Releases
+   # *version:*  The Version, the ro.modversion String gets compared to. When the User is running !Cyanogen 4.0.1, the ro.modversion String will read !CyanogenMod-4.0.1. We strip the Version from this String and compare it to the Version provided in the Metadata File. So this will show up as a Update on cm4.0.1, but not on 4.0.2, because the 4.0.2 would be a newer Version.
+   # *description:* Put in your Changelog here, each entry splitted by |. Attention: Please dont use " in your description, or you will break the JSON File
    # *branch*: Must be X or S. X for experimental and S for Stable. When you put a X here, the Update will only show up, if the User enabled the "Show Experimental Builds" option
    # *filename:* The filename of the File. The Update URL is created by randomly taking a mirror and append the Filename at the end. mirror + filename. So http://n0rp.chemlab.org/android/ + update-cm-3.9.7-signed.zip = http://n0rp.chemlab.org/android/update-cm-3.9.7-signed.zip. This is also the filename used, to store the Update in the cm-updates Folder.
+
+= For ROM Updates =
+  * Mirrorlist: Add your downloadurls here
+  * !UpdateList: Every new Update gets a entry here (the part within the `{ }`)
+   # *mod:* Always put ADP1 in here, so the old Versions (<2.0) of CM-Updater can read the Updates
+   # *board:* The Phone for which the ROM was designed. Multiple boards possible. in Example: trout|sapphire will show this Update only to Dream and Sapphire Users. You can get the value from /system/build.prop Valuename: ro.product.board. This is only supported since Version 3 of the App.
+   # *type:* Must be "rom" for ROM Updates
+   # *name:* The Name of the Update that shows up in the Dropdownlist of available Updates in the App
+   # *version:*  The Version, the ro.modversion String gets compared to. When the User is running !Cyanogen 4.0.1, the ro.modversion String will read !CyanogenMod-4.0.1. We strip the Version from this String and compare it to the Version provided in the Metadata File. So this will show up as a Update on cm4.0.1, but not on 4.0.2, because the 4.0.2 would be a newer Version.
+   # *description:* Put in your Changelog here, each entry splitted by |. Attention: Please dont use " in your description, or you will break the JSON File
+   # *branch*: Must be X or S. X for experimental and S for Stable. When you put a X here, the Update will only show up, if the User enabled the "Show Experimental Builds" option
+   # *filename:* The filename of the File. The Update URL is created by randomly taking a mirror and append the Filename at the end. mirror + filename. So http://n0rp.chemlab.org/android/ + update-cm-3.9.7-signed.zip = http://n0rp.chemlab.org/android/update-cm-3.9.7-signed.zip. This is also the filename used, to store the Update in the cm-updates Folder.
+
 
 == ATTENTION: ==
 You MUST have an md5sum File on your Server, thats named like the Filename, or the App will refuse the Download of the File.
