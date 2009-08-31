@@ -79,6 +79,6 @@ The the user has to open Settings-->Update Server-->Scan QR URL, and te next Tim
 To get the updater working with your Theme, you have to create a File called themes.theme under /system/framework/ (you change this directory on each Theme so its no big deal)
 The Content must be:
 
-!ThemeName|Version
+*!ThemeName|Version*
 
 The !ThemeName must Match the "name" tag in the JSON File, and the Version is the Versionstring, the "version" from the JSON gets compared to.
