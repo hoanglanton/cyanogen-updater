@@ -41,8 +41,8 @@ Just create an empty xxx.json File on your Computer.
 = For ROM Updates =
   * Mirrorlist: Add your downloadurls here
   * !UpdateList: Every new Update gets a entry here (the part within the `{ }`)
-   # *mod:* Always put ADP1 in here, so the old Versions (<2.0) of CM-Updater can read the Updates
-   # *board:* The Phone for which the ROM was designed. Multiple boards possible. in Example: trout|sapphire will show this Update only to Dream and Sapphire Users. You can get the value from /system/build.prop Valuename: ro.product.board. This is only supported since Version 3 of the App.
+   # *mod:* Always put ADP1 in here, so the old Versions (<2.0) of CM-Updater can read the Updates. You can also put a `*` in here
+   # *board:* The Phone for which the ROM was designed. Multiple boards possible. in Example: trout|sapphire will show this Update only to Dream and Sapphire Users. You can get the value from /system/build.prop Valuename: ro.product.board. This is only supported since Version 3 of the App. When you put a `*` in there, all board will be supported
    # *type:* Must be "rom" for ROM Updates
    # *name:* The Name of the Update that shows up in the Dropdownlist of available Updates in the App
    # *version:*  The Version, the ro.modversion String gets compared to. When the User is running Cyanogen 4.0.1, the ro.modversion String will read !CyanogenMod-4.0.1. We strip the Version from this String and compare it to the Version provided in the Metadata File. So this will show up as a Update on cm4.0.1, but not on 4.0.2, because the 4.0.2 would be a newer Version.
@@ -53,8 +53,8 @@ Just create an empty xxx.json File on your Computer.
 = For Theme Updates =
   * Mirrorlist: Add your downloadurls here
   * !UpdateList: Every new Update gets a entry here (the part within the `{ }`)
-   # *mod:* Put the ro.modversion from build.prop here, the Theme was made for. Example: !CyanogenMod-4.1.1 (must be the Exact string)
-   # *board:* The Phone for which the Theme was designed. Multiple boards possible. in Example: trout|sapphire will show this Update only to Dream and Sapphire Users. You can get the value from /system/build.prop Valuename: ro.product.board. This is only supported since Version 3 of the App.
+   # *mod:* Put the ro.modversion from build.prop here, the Theme was made for. Example: !CyanogenMod-4.1.1 (must be the Exact string). You can also put a `*` in here to support ALL mods
+   # *board:* The Phone for which the Theme was designed. Multiple boards possible. in Example: trout|sapphire will show this Update only to Dream and Sapphire Users. You can get the value from /system/build.prop Valuename: ro.product.board. This is only supported since Version 3 of the App. You can also put a `*` here, to support all boards
    # *type:* Must be "theme" for Theme Updates
    # *name:* The Name of the Update, provided in the themes.theme File under /system/framework (see below)
    # *version:*  The Version of the Update. This gets compared to the Version, that is currently Stored in the themes.theme File
