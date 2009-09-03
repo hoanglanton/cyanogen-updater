@@ -59,7 +59,7 @@ Just create an empty xxx.json File on your Computer.
    # *name:* The Name of the Update, provided in the themes.theme File under /system/framework (see below)
    # *version:*  The Version of the Update. This gets compared to the Version, that is currently Stored in the themes.theme File
    # *description:* Put in your Changelog here, each entry splitted by |. Attention: Please dont use " in your description, or you will break the JSON File
-   # *branch*: Must be X or S. X for experimental and S for Stable. When you put a X here, the Update will only show up, if the User enabled the "Show Experimental Builds" option
+   # *branch*: Must be X or S. X for experimental and S for Stable. When you put a X here, the Update will only show up, if the User enabled the "Show Experimental Builds" option. So you can have Experimental Themeupdates ;)
    # *filename:* The filename of the File. The Update URL is created by randomly taking a mirror and append the Filename at the end. mirror + filename. So http://n0rp.chemlab.org/android/ + update-cm-3.9.7-signed.zip = http://n0rp.chemlab.org/android/update-cm-3.9.7-signed.zip. This is also the filename used, to store the Update in the cm-updates Folder.
 
 
@@ -82,3 +82,5 @@ The Content must be:
 *!ThemeName|Version*
 
 The !ThemeName must Match the "name" tag in the JSON File, and the Version is the Versionstring, the "version" from the JSON gets compared to.
+
+You can now also put a * in it, or when the File does not exist, the App assumes a Wildcard. So you will be able to install Themes, even if there's no themes.theme file. But your Systems Mod Version must still match the "mod" Tag from the JSON, so you will not mess up your System by applying a Theme, thats not for your System.
