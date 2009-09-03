@@ -83,4 +83,4 @@ The Content must be:
 
 The !ThemeName must Match the "name" tag in the JSON File, and the Version is the Versionstring, the "version" from the JSON gets compared to.
 
-You can now also put a * in it, or when the File does not exist, the App assumes a Wildcard. So you will be able to install Themes, even if there's no themes.theme file. But your Systems Mod Version must still match the "mod" Tag from the JSON, so you will not mess up your System by applying a Theme, thats not for your System.
+You can now also put a `*` in it, or when the File does not exist, the App assumes a Wildcard. So you will be able to install Themes, even if there's no themes.theme file. But your Systems Mod Version must still match the "mod" Tag from the JSON, so you will not mess up your System by applying a Theme, thats not for your System.
