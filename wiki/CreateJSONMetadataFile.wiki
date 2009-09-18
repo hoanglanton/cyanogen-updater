@@ -51,6 +51,7 @@ Just create an empty xxx.json File on your Computer.
    # *filename:* The filename of the File. The Update URL is created by randomly taking a mirror and append the Filename at the end. mirror + filename. So http://n0rp.chemlab.org/android/ + update-cm-3.9.7-signed.zip = http://n0rp.chemlab.org/android/update-cm-3.9.7-signed.zip. This is also the filename used, to store the Update in the cm-updates Folder.
 
 = For Theme Updates =
+== Please note: Theme Updates are only shown for your CURRENT Rom (NOT overrideable via Settings). So you cant mess up your System by flashing a Theme not designed for you ROM ==
   * Mirrorlist: Add your downloadurls here
   * !UpdateList: Every new Update gets a entry here (the part within the `{ }`)
    # *mod:* Put the ro.modversion from build.prop here, the Theme was made for. Example: !CyanogenMod-4.1.1 (must be the Exact string). You can also put a `*` in here to support ALL mods. Multiple mods supported by splitting them by a | . Example: !CyanogenMod-4.1.1|!CyanogenMod-4.1 when cyanogen does a quick fix that doesnt affect your theme
