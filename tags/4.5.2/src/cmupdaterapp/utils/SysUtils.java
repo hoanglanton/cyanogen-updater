@@ -55,12 +55,4 @@ public class SysUtils
         }
         return line;
 	}
-	
-	public static boolean StringCompare(String a, String b)
-	{
-		if (a.compareToIgnoreCase(b) < 0)
-			return true;
-		else
-			return false;
-	}
 }
