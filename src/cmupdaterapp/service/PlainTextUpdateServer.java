@@ -27,6 +27,7 @@ import cmupdaterapp.misc.Constants;
 import cmupdaterapp.misc.Log;
 import cmupdaterapp.misc.State;
 import cmupdaterapp.utils.Preferences;
+import cmupdaterapp.utils.StringUtils;
 import cmupdaterapp.utils.SysUtils;
 
 import android.content.Context;
@@ -329,7 +330,7 @@ public class PlainTextUpdateServer implements IUpdateServer
 			{
 				if (boardMatches(ui, systemMod))
 				{
-					if(showAllRomUpdates || SysUtils.StringCompare(systemRom, Constants.RO_MOD_START_STRING + ui.version))
+					if(showAllRomUpdates || StringUtils.compareVersions(Constants.RO_MOD_START_STRING + ui.version, systemRom))
 					{
 						if (branchMatches(ui, showExperimentalRomUpdates))
 						{
@@ -379,7 +380,7 @@ public class PlainTextUpdateServer implements IUpdateServer
 						if (WildcardUsed || showAllThemeUpdates || (themeInfos.name != null && themeInfos.name != "" && ui.name.equalsIgnoreCase(themeInfos.name)))
 						{
 							//Version matches or name is *. If *, display all Versions
-							if(WildcardUsed || showAllThemeUpdates || SysUtils.StringCompare(themeInfos.version, ui.version))
+							if(WildcardUsed || showAllThemeUpdates || StringUtils.compareVersions(ui.version, themeInfos.version))
 							{
 								//Branch matches
 								if (branchMatches(ui, showExperimentalThemeUpdates))
