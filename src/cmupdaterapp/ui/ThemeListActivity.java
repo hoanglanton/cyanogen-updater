@@ -5,7 +5,7 @@ import java.util.LinkedList;
 
 import cmupdaterapp.customTypes.FullThemeList;
 import cmupdaterapp.customTypes.ThemeList;
-import cmupdaterapp.database.DbAdapter;
+import cmupdaterapp.database.ThemeListDbAdapter;
 import cmupdaterapp.featuredThemes.FeaturedThemes;
 import cmupdaterapp.listadapters.ThemeListAdapter;
 import cmupdaterapp.misc.Constants;
@@ -24,7 +24,6 @@ import android.os.Message;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.SubMenu;
 import android.view.View;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ListView;
@@ -35,7 +34,7 @@ public class ThemeListActivity extends ListActivity
 {
 	private static final String TAG = "ThemeListActivity";
 	
-	private DbAdapter themeListDb;
+	private ThemeListDbAdapter themeListDb;
 	private Cursor themeListCursor;
 	private FullThemeList fullThemeList;
 	private LinkedList<ThemeList> fullThemeListList;
@@ -56,7 +55,7 @@ public class ThemeListActivity extends ListActivity
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		themeListDb = new DbAdapter();
+		themeListDb = new ThemeListDbAdapter(this);
 		Log.d(TAG, "Opening Database");
 		themeListDb.open();
 		setContentView(R.layout.themelist);
@@ -81,11 +80,11 @@ public class ThemeListActivity extends ListActivity
 		if (themeListCursor.moveToFirst())
 			do
 			{
-				String name = themeListCursor.getString(DbAdapter.COLUMN_THEMELIST_NAME);
-				String uri = themeListCursor.getString(DbAdapter.COLUMN_THEMELIST_URI);
-				int pk = themeListCursor.getInt(DbAdapter.COLUMN_THEMELIST_ID);
-				int enabled = themeListCursor.getInt(DbAdapter.COLUMN_THEMELIST_ENABLED);
-				int featured = themeListCursor.getInt(DbAdapter.COLUMN_THEMELIST_FEATURED);
+				String name = themeListCursor.getString(ThemeListDbAdapter.KEY_NAME_COLUMN);
+				String uri = themeListCursor.getString(ThemeListDbAdapter.KEY_URI_COLUMN);
+				int pk = themeListCursor.getInt(ThemeListDbAdapter.KEY_ID_COLUMN);
+				int enabled = themeListCursor.getInt(ThemeListDbAdapter.KEY_ENABLED_COLUMN);
+				int featured = themeListCursor.getInt(ThemeListDbAdapter.KEY_FEATURED_COLUMN);
 				ThemeList newItem = new ThemeList();
 				newItem.name = name;
 				newItem.url = URI.create(uri);
@@ -107,7 +106,6 @@ public class ThemeListActivity extends ListActivity
 			tv.setText(R.string.theme_list_long_press);
 		else
 			tv.setText(R.string.theme_list_no_themes);
-		themeListCursor.deactivate();
 	}
 	
 	public void onListItemClick(ListView parent, View v,int position, long id)
@@ -120,20 +118,8 @@ public class ThemeListActivity extends ListActivity
 	public boolean onCreateOptionsMenu(Menu menu)
 	{
 		super.onCreateOptionsMenu(menu);
-		menu.add(Menu.NONE, Constants.MENU_THEME_LIST_UPDATE_FEATURED, Menu.NONE, R.string.menu_update_featured);
 		menu.add(Menu.NONE, Constants.MENU_THEME_LIST_ADD, Menu.NONE, R.string.menu_add_theme);
-		SubMenu deleteMenu = menu.addSubMenu(R.string.theme_submenu_delete);
-		deleteMenu.setIcon(android.R.drawable.ic_menu_more);
-		deleteMenu.add(Menu.NONE, Constants.MENU_THEME_DELETE_ALL, Menu.NONE, R.string.menu_delete_all_themes);
-		deleteMenu.add(Menu.NONE, Constants.MENU_THEME_DELETE_ALL_FEATURED, Menu.NONE, R.string.menu_delete_all_featured_themes);
-		SubMenu disableMenu = menu.addSubMenu(R.string.theme_submenu_disable);
-		disableMenu.setIcon(android.R.drawable.ic_menu_more);
-		disableMenu.add(Menu.NONE, Constants.MENU_THEME_DISABLE_ALL, Menu.NONE, R.string.menu_disable_all_themes);
-		disableMenu.add(Menu.NONE, Constants.MENU_THEME_DISABLE_ALL_FEATURED, Menu.NONE, R.string.menu_disable_all_featured_themes);
-		SubMenu enableMenu = menu.addSubMenu(R.string.theme_submenu_enable);
-		enableMenu.setIcon(android.R.drawable.ic_menu_more);
-		enableMenu.add(Menu.NONE, Constants.MENU_THEME_ENABLE_ALL, Menu.NONE, R.string.menu_enable_all_themes);
-		enableMenu.add(Menu.NONE, Constants.MENU_THEME_ENABLE_ALL_FEATURED, Menu.NONE, R.string.menu_enable_all_featured_themes);
+		menu.add(Menu.NONE, Constants.MENU_THEME_LIST_UPDATE_FEATURED, Menu.NONE, R.string.menu_update_featured);
 		return true;
 	}
 	
@@ -193,36 +179,6 @@ public class ThemeListActivity extends ListActivity
 				themeListDb.updateTheme(tl.PrimaryKey, tl);
 				updateThemeList();
 				break;
-			case Constants.MENU_THEME_DELETE_ALL:
-				Log.d(TAG, "Selected to delete all Theme Servers");
-				themeListDb.removeAllThemes();
-				updateThemeList();
-				break;
-			case Constants.MENU_THEME_DELETE_ALL_FEATURED:
-				Log.d(TAG, "Selected to delete all Featured Theme Servers");
-				themeListDb.removeAllFeaturedThemes();
-				updateThemeList();
-				break;
-			case Constants.MENU_THEME_DISABLE_ALL:
-				Log.d(TAG, "Selected to disable all Theme Servers");
-				themeListDb.disableAllThemes();
-				updateThemeList();
-				break;
-			case Constants.MENU_THEME_DISABLE_ALL_FEATURED:
-				Log.d(TAG, "Selected to disable all Featured Theme Servers");
-				themeListDb.disableAllFeaturedThemes();
-				updateThemeList();
-				break;
-			case Constants.MENU_THEME_ENABLE_ALL:
-				Log.d(TAG, "Selected to enable all Theme Servers");
-				themeListDb.enableAllThemes();
-				updateThemeList();
-				break;
-			case Constants.MENU_THEME_ENABLE_ALL_FEATURED:
-				Log.d(TAG, "Selected to enable all Featured Theme Servers");
-				themeListDb.enableAllFeaturedThemes();
-				updateThemeList();
-				break;
 			default:
 				Log.d(TAG, "Unknown Menu ID:" + item.getItemId());
 				break;
@@ -235,7 +191,6 @@ public class ThemeListActivity extends ListActivity
 	{
 		// Close the database
 		Log.d(TAG, "Closing Database");
-		themeListCursor.close();
 		themeListDb.close();
 		super.onDestroy();
 	}

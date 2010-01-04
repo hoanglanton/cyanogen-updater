@@ -5,9 +5,8 @@ import java.text.MessageFormat;
 import java.util.Date;
 
 import cmupdaterapp.customTypes.FullUpdateInfo;
-import cmupdaterapp.interfaces.IUpdateCheckHelper;
+import cmupdaterapp.interfaces.IUpdateServer;
 import cmupdaterapp.misc.Constants;
-import cmupdaterapp.misc.UpdateCheckHelper;
 import cmupdaterapp.ui.MainActivity;
 import cmupdaterapp.ui.R;
 import cmupdaterapp.misc.Log;
@@ -34,7 +33,7 @@ public class UpdateCheckerService extends Service
 	
 	private Looper mServiceLooper;
 	private ServiceHandler mServiceHandler;
-	private IUpdateCheckHelper mUpdateServer;
+	private IUpdateServer mUpdateServer;
 	private NotificationManager mNM;
 	private boolean mWaitingForDataConnection = false;
 
@@ -101,7 +100,7 @@ public class UpdateCheckerService extends Service
         
         mServiceLooper = thread.getLooper();
         mServiceHandler = new ServiceHandler(mServiceLooper);
-        mUpdateServer = new UpdateCheckHelper(this);
+        mUpdateServer = new PlainTextUpdateServer(this);
 	}
 
 	@Override

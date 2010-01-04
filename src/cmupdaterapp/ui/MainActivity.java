@@ -5,7 +5,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FilenameFilter;
 import java.io.IOException;
-import java.net.URI;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -18,12 +17,13 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -48,11 +48,11 @@ import cmupdaterapp.customTypes.FullUpdateInfo;
 import cmupdaterapp.customTypes.UpdateInfo;
 import cmupdaterapp.interfaces.IMainActivity;
 import cmupdaterapp.listadapters.UpdateListAdapter;
-import cmupdaterapp.misc.UpdateCheckHelper;
-import cmupdaterapp.tasks.UpdateCheckTask;
+import cmupdaterapp.service.PlainTextUpdateServer;
+import cmupdaterapp.tasks.UpdateCheck;
+import cmupdaterapp.tasks.UserTask;
 import cmupdaterapp.utils.MD5;
 import cmupdaterapp.utils.Preferences;
-import cmupdaterapp.utils.StringUtils;
 import cmupdaterapp.utils.SysUtils;
 import cmupdaterapp.misc.Constants;
 import cmupdaterapp.misc.Log;
@@ -65,7 +65,7 @@ public class MainActivity extends IMainActivity
 
 	private Spinner mUpdatesSpinner;
 	private Spinner mThemesSpinner;
-	private UpdateCheckHelper mUpdateServer;
+	private PlainTextUpdateServer mUpdateServer;
 	private FullUpdateInfo mAvailableUpdates;
 
 	private File mUpdateFolder;
@@ -90,19 +90,6 @@ public class MainActivity extends IMainActivity
 	private Resources res;
 
 	private Boolean runningOldVersion = false;
-	
-	private final View.OnClickListener mScreenshotThemesListener = new View.OnClickListener()
-	{
-		public void onClick(View v)
-		{
-			Log.d(TAG, "Theme Screenshot Button clicked");
-			final UpdateInfo ui = (UpdateInfo) mThemesSpinner.getSelectedItem();
-			Intent i = new Intent(MainActivity.this, ScreenshotActivity.class);
-			i.putExtra(Constants.SCREENSHOTS_UPDATE, ui);
-			startActivity(i);
-			return;
-		}
-	};
 	
 	private final View.OnClickListener mDownloadUpdateButtonListener = new View.OnClickListener()
 	{
@@ -241,12 +228,7 @@ public class MainActivity extends IMainActivity
 		public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3)
 		{
 			Button themeChangelogButton = (Button) findViewById(R.id.show_theme_changelog_button);
-			Button ScreenshotThemeButton = (Button) findViewById(R.id.theme_screenshots_button);
-			UpdateInfo item = (UpdateInfo) mThemesSpinner.getSelectedItem();
-			String changelog = item.description;
-			List<URI> screenshots = item.screenshots;
-			int ScreenshotCount = item.screenshots.size();
-			
+			String changelog = ((UpdateInfo) mThemesSpinner.getSelectedItem()).description;
 			if (changelog == null || changelog == "")
 			{
 				themeChangelogButton.setVisibility(View.GONE);
@@ -254,14 +236,6 @@ public class MainActivity extends IMainActivity
 			else
 			{
 				themeChangelogButton.setVisibility(View.VISIBLE);
-			}
-			if (screenshots == null || ScreenshotCount < 1)
-			{
-				ScreenshotThemeButton.setVisibility(View.GONE);
-			}
-			else
-			{
-				ScreenshotThemeButton.setVisibility(View.VISIBLE);
 			}
 		}
 
@@ -357,7 +331,7 @@ public class MainActivity extends IMainActivity
 	private final class mApplyExistingButtonListener implements View.OnClickListener
 	{
 		private ProgressDialog mDialog;
-		private AsyncTask<File, Void, Boolean> mBgTask;
+		private UserTask<File, Void, Boolean> mBgTask;
 		private String filename;
 		private File Update;
 		
@@ -456,7 +430,7 @@ public class MainActivity extends IMainActivity
 		}
 	}
 
-	private final class MD5CheckerTask extends AsyncTask<File, Void, Boolean>
+	private final class MD5CheckerTask extends UserTask<File, Void, Boolean>
 	{	
 		private ProgressDialog mDialog;
 		private String mFilename;
@@ -556,11 +530,12 @@ public class MainActivity extends IMainActivity
 		super.onCreate(savedInstanceState);
 		prefs = Preferences.getPreferences(this);
 		res = getResources();
+		setWallpaper();
 		
 		//Sets the Title to Appname + Mod Version
 		setTitle(res.getString(R.string.app_name) + " " + res.getString(R.string.title_running) + " " + SysUtils.getModVersion());
 
-		mUpdateServer = new UpdateCheckHelper(this);
+		mUpdateServer = new PlainTextUpdateServer(this);
 	}
 
 	@Override
@@ -568,10 +543,17 @@ public class MainActivity extends IMainActivity
 	{
 		Log.d(TAG, "onStart called");
 		super.onStart();
-
+		
+		//Delete any older Versions, because of the changed Signing Key
+		while (!deleteOldVersionsOfUpdater())
+		{
+			//User MUST uninstall old App
+			Log.d(TAG, "Old App not uninstalled, try again");
+		}
+		
 		//Show a Dialog that the User runs an old rom.
 		String mod = SysUtils.getModVersion();
-		if (StringUtils.compareVersions(Constants.MIN_SUPPORTED_VERSION_STRING, mod))
+		if (!SysUtils.StringCompare(Constants.MIN_SUPPORTED_VERSION_STRING, mod))
 		{
 			runningOldVersion = true;
 			
@@ -673,6 +655,14 @@ public class MainActivity extends IMainActivity
 		super.onStop();
 		Log.d(TAG, "App closed");
 	}
+	
+	@Override
+	public void onConfigurationChanged(Configuration newConfig)
+	{
+		setWallpaper();
+        super.onConfigurationChanged(newConfig); 
+        Log.d(TAG, "Orientation Changed. New Orientation: "+newConfig.orientation);
+    }
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu)
@@ -846,7 +836,6 @@ public class MainActivity extends IMainActivity
 		TextView tvThemeDownloadText = (TextView) findViewById(R.id.available_themes_text);
 		LinearLayout stableExperimentalInfoThemes = (LinearLayout) findViewById(R.id.stable_experimental_description_container_themes);
 		Button btnThemechangelogButton = (Button) findViewById(R.id.show_theme_changelog_button);
-		Button btnThemeScreenshotButton = (Button) findViewById(R.id.theme_screenshots_button);
 		TextView tvNoThemeUpdateServer = (TextView) findViewById(R.id.no_theme_update_server_configured);
 		
 		//No ROM Updates Found Layout
@@ -919,7 +908,6 @@ public class MainActivity extends IMainActivity
 			tvThemeDownloadText.setVisibility(View.GONE);
 			stableExperimentalInfoThemes.setVisibility(View.GONE);
 			btnThemechangelogButton.setVisibility(View.GONE);
-			btnThemeScreenshotButton.setVisibility(View.GONE);
 			CheckNowUpdateChooserTextThemes.setVisibility(View.GONE);
 			CheckNowUpdateChooserThemes.setVisibility(View.GONE);
 		}
@@ -928,7 +916,6 @@ public class MainActivity extends IMainActivity
 		{
 			btnDownloadTheme.setOnClickListener(mDownloadThemeButtonListener);
 			btnThemechangelogButton.setOnClickListener(mThemeChangelogButtonListener);
-			btnThemeScreenshotButton.setOnClickListener(mScreenshotThemesListener);
 			mThemesSpinner.setOnItemSelectedListener(mThemeSpinnerChanged);
 			
 			UpdateListAdapter<UpdateInfo> spAdapterThemes = new UpdateListAdapter<UpdateInfo>(
@@ -947,7 +934,6 @@ public class MainActivity extends IMainActivity
 			tvThemeDownloadText.setVisibility(View.GONE);
 			stableExperimentalInfoThemes.setVisibility(View.GONE);
 			btnThemechangelogButton.setVisibility(View.GONE);
-			btnThemeScreenshotButton.setVisibility(View.GONE);
 			CheckNowUpdateChooserTextThemes.setVisibility(View.VISIBLE);
 			CheckNowUpdateChooserThemes.setVisibility(View.VISIBLE);
 			CheckNowUpdateChooserThemes.setOnClickListener(new View.OnClickListener()
@@ -1114,7 +1100,7 @@ public class MainActivity extends IMainActivity
 	private void checkForUpdates()
 	{
 		ProgressDialog pg = ProgressDialog.show(this, res.getString(R.string.checking_for_updates), res.getString(R.string.checking_for_updates), true, true);	
-		UpdateCheckTask u = new UpdateCheckTask(mUpdateServer, this, pg);
+		UpdateCheck u = new UpdateCheck(mUpdateServer, this, pg);
 		Thread t = new Thread(u);
 		t.start();
 	}
@@ -1237,6 +1223,43 @@ public class MainActivity extends IMainActivity
 		}
 		// The directory is now empty so delete it
 		return dir.delete();
+	}
+
+	private boolean deleteOldVersionsOfUpdater()
+	{
+		try
+		{
+			String packageName = "cmupdater.ui";
+			PackageManager p = getPackageManager();
+			//This throws an Exception, when the Package is not found
+			PackageInfo a = p.getPackageInfo(packageName, 0);
+			if (a!=null && a.versionCode < 310)
+			{
+				Log.d(TAG, "Old VersionCode: "+a.versionCode);
+				Intent intent1 = new Intent(Intent.ACTION_DELETE); 
+				Uri data = Uri.fromParts("package", packageName, null); 
+				intent1.setData(data);
+				Toast.makeText(getBaseContext(), R.string.toast_uninstall_old_Version, Toast.LENGTH_LONG).show();
+				startActivity(intent1);
+				Log.d(TAG, "Uninstall Activity started");
+				return true;
+			}
+			else
+			{
+				throw new PackageManager.NameNotFoundException();
+			}
+		}
+		catch (NameNotFoundException e)
+		{
+			//No old Version found, so we return true
+			Log.d(TAG, "No old Version found");
+			return true;
+		}
+	}
+	
+	private void setWallpaper()
+	{
+		getWindow().setBackgroundDrawable(res.getDrawable(R.drawable.background));
 	}
 }
 

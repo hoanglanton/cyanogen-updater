@@ -4,7 +4,6 @@
 	android:orientation="vertical"
 	android:layout_width="fill_parent"
 	android:layout_height="fill_parent"
-	android:background="@drawable/background"
 	android:gravity="center_horizontal">
 	<TableLayout
 		android:orientation="horizontal"
@@ -47,7 +46,7 @@
 		    <LinearLayout 
 		    	android:orientation="vertical"
 		    	android:layout_width="fill_parent"
-		    	android:layout_height="wrap_content"
+		    	android:layout_height="fill_parent"
 		    	android:gravity="center_horizontal">
 			    <TextView
 			    	android:id="@+id/available_updates_text"
@@ -124,6 +123,7 @@
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:text="@string/check_now_button_text"
+					android:layout_weight="0"
 					android:layout_marginTop="20sp"
 				    style="@style/TextAppearance.Button"
 				    android:drawableLeft="@drawable/check_now"/>
@@ -157,7 +157,7 @@
 			<LinearLayout 
 		    	android:orientation="vertical"
 		    	android:layout_width="fill_parent"
-		    	android:layout_height="wrap_content"
+		    	android:layout_height="fill_parent"
 		    	android:gravity="center_horizontal">
 				<TextView
 					android:id="@+id/no_existing_updates_found_textview"
@@ -204,7 +204,7 @@
 		    <LinearLayout 
 		    	android:orientation="vertical"
 		    	android:layout_width="fill_parent"
-		    	android:layout_height="wrap_content"
+		    	android:layout_height="fill_parent"
 		    	android:gravity="center_horizontal">
 			    <TextView
 			    	android:id="@+id/no_theme_update_server_configured"
@@ -277,13 +277,6 @@
 					android:layout_marginTop="20sp"
 				    style="@style/TextAppearance.Button"
 				    android:drawableLeft="@drawable/icon" />
-				<Button
-			    	android:id="@+id/theme_screenshots_button"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:text="@string/screenshot_button_theme_text"
-					android:layout_marginTop="20sp"
-				    style="@style/TextAppearance.Button" />
 				<TextView
 			    	android:id="@+id/check_now_update_chooser_text_themes"
 			    	android:layout_width="fill_parent"
@@ -297,6 +290,7 @@
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:text="@string/check_now_button_text"
+					android:layout_weight="0"
 					android:layout_marginTop="20sp"
 				    style="@style/TextAppearance.Button"
 				    android:drawableLeft="@drawable/check_now"/>

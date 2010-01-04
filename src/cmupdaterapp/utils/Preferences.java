@@ -13,7 +13,7 @@ import java.util.LinkedList;
 import cmupdaterapp.customTypes.FullThemeList;
 import cmupdaterapp.customTypes.ThemeInfo;
 import cmupdaterapp.customTypes.ThemeList;
-import cmupdaterapp.database.DbAdapter;
+import cmupdaterapp.database.ThemeListDbAdapter;
 import cmupdaterapp.misc.Constants;
 import cmupdaterapp.misc.Log;
 import cmupdaterapp.ui.R;
@@ -39,6 +39,8 @@ public class Preferences extends Activity
 	private String temp;
 	private boolean tempbool;
 	
+	private static Context mainContext;
+	
 	private Preferences(SharedPreferences prefs, Resources res)
 	{
 		mPrefs = prefs;
@@ -52,6 +54,7 @@ public class Preferences extends Activity
 			Log.d(TAG, "Preference Instance set.");
 			INSTANCE = new Preferences(PreferenceManager.getDefaultSharedPreferences(ctx), ctx.getResources());
 		}
+		mainContext = ctx;
 		return INSTANCE;
 	}
 
@@ -155,7 +158,7 @@ public class Preferences extends Activity
 	
 	public LinkedList<ThemeList> getThemeUpdateUrls()
 	{
-		DbAdapter themeListDb = new DbAdapter();
+		ThemeListDbAdapter themeListDb = new ThemeListDbAdapter(mainContext);
 		Log.d(TAG, "Opening Database");
 		themeListDb.open();
 		//Get the actual ThemeList from the Database
@@ -166,10 +169,10 @@ public class Preferences extends Activity
 		if (themeListCursor.moveToFirst())
 			do
 			{
-				String name = themeListCursor.getString(DbAdapter.COLUMN_THEMELIST_NAME);
-				String uri = themeListCursor.getString(DbAdapter.COLUMN_THEMELIST_URI);
-				int pk = themeListCursor.getInt(DbAdapter.COLUMN_THEMELIST_ID);
-				int enabled = themeListCursor.getInt(DbAdapter.COLUMN_THEMELIST_ENABLED);
+				String name = themeListCursor.getString(ThemeListDbAdapter.KEY_NAME_COLUMN);
+				String uri = themeListCursor.getString(ThemeListDbAdapter.KEY_URI_COLUMN);
+				int pk = themeListCursor.getInt(ThemeListDbAdapter.KEY_ID_COLUMN);
+				int enabled = themeListCursor.getInt(ThemeListDbAdapter.KEY_ENABLED_COLUMN);
 				ThemeList newItem = new ThemeList();
 				newItem.name = name;
 				newItem.url = URI.create(uri);

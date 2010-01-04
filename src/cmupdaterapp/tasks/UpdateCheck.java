@@ -17,23 +17,23 @@ import android.os.Message;
 import android.widget.Toast;
 import cmupdaterapp.customTypes.FullUpdateInfo;
 import cmupdaterapp.interfaces.IMainActivity;
-import cmupdaterapp.interfaces.IUpdateCheckHelper;
+import cmupdaterapp.interfaces.IUpdateServer;
 import cmupdaterapp.utils.Preferences;
 import cmupdaterapp.misc.Log;
 import cmupdaterapp.ui.MainActivity;
 import cmupdaterapp.ui.R;
 
-public class UpdateCheckTask implements Runnable
+public class UpdateCheck implements Runnable
 {
-	private static final String TAG = "UpdateCheckTask";
+	private static final String TAG = "UpdateCheck";
 
-	private IUpdateCheckHelper mUpdateServer;
+	private IUpdateServer mUpdateServer;
 	private IMainActivity mUpdateProcessInfo;	
 	private ProgressDialog p;
 	
 	private FullUpdateInfo ui = null;
 	
-	public UpdateCheckTask(IUpdateCheckHelper updateServer, IMainActivity upi, ProgressDialog pg)
+	public UpdateCheck(IUpdateServer updateServer, IMainActivity upi, ProgressDialog pg)
 	{
 		mUpdateServer = updateServer;
 		mUpdateProcessInfo = upi;
@@ -71,14 +71,6 @@ public class UpdateCheckTask implements Runnable
 					Toast.makeText(upi, R.string.exception_while_updating, Toast.LENGTH_LONG).show();
 				p.dismiss();
 				return;
-			}
-			
-			if (mUpdateServer != null && IUpdateCheckHelper.Exceptions != null && IUpdateCheckHelper.Exceptions.size() > 0)
-			{
-				for (String e : IUpdateCheckHelper.Exceptions)
-				{
-					Toast.makeText(upi, e, Toast.LENGTH_LONG).show();
-				}
 			}
 			
 			Preferences prefs = Preferences.getPreferences(upi);

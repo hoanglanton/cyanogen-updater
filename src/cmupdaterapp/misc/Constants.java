@@ -7,8 +7,6 @@ public class Constants
 	public static final String RO_MOD_START_STRING = "CyanogenMod-";
 	public static final String MIN_SUPPORTED_VERSION_STRING = RO_MOD_START_STRING + "4.1.99";
 	public static final String UPDATE_INSTRUCTIONS_URL = "http://www.simplehelp.net/2009/10/04/how-to-install-cyanogenmod-4-1-99-on-your-g1-android-phone/";
-	public static final String EXTERNAL_DATA_DIRECTORY = "cmupdater/data";
-	public static final String DATE_FORMAT = "EEE, dd MMM yyyy HH:mm:ss z"; 
 
 	//UpdateInfo
 	public static final String UPDATE_INFO_TYPE_ROM = "rom";
@@ -20,7 +18,6 @@ public class Constants
 	//JSON Objects
 	public static final String JSON_MIRROR_LIST = "MirrorList"; 
 	public static final String JSON_UPDATE_LIST = "UpdateList";
-	public static final String JSON_SCREENSHOTS = "Screenshots";
 	public static final String JSON_BOARD = "board";
 	public static final String JSON_TYPE = "type";
 	public static final String JSON_MOD = "mod";
@@ -65,12 +62,6 @@ public class Constants
 	//Menu ThemeList Layout
 	public static final int MENU_THEME_LIST_ADD = 1;
 	public static final int MENU_THEME_LIST_UPDATE_FEATURED = 2;
-	public static final int MENU_THEME_DELETE_ALL = 3;
-	public static final int MENU_THEME_DELETE_ALL_FEATURED = 4;
-	public static final int MENU_THEME_DISABLE_ALL = 5;
-	public static final int MENU_THEME_DISABLE_ALL_FEATURED = 6;
-	public static final int MENU_THEME_ENABLE_ALL = 7;
-	public static final int MENU_THEME_ENABLE_ALL_FEATURED = 8;
 	
 	//Menu ThemeListContextMenu
 	public static final int MENU_THEME_LIST_CONTEXT_EDIT = 10;
@@ -117,9 +108,4 @@ public class Constants
 	
 	//IntentExtra for DownloadActivity
 	public static final String UPDATE_INFO = "UpdateInfo";
-	
-	//Screenshots
-	public static final String SCREENSHOTS_UPDATE = "Screenshots";
-	public static final int SCREENSHOTS_FALLBACK_IMAGE = android.R.drawable.ic_delete;
-	public static final String SCREENSHOTS_POSITION = "ScreenshotPosition";
 }

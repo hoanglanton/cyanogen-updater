@@ -12,6 +12,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
@@ -37,6 +39,8 @@ public class DownloadActivity extends IDownloadActivity
 	public static UpdateDownloaderService mUpdateDownloaderService;
 	private Intent mUpdateDownloaderServiceIntent;
 	
+	private Resources res;
+	
 	//Indicates if a Service is bound 
 	private boolean mbind = false;
 	
@@ -49,6 +53,8 @@ public class DownloadActivity extends IDownloadActivity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.download);
 		mUpdateDownloaderServiceIntent = new Intent(this, UpdateDownloaderService.class);
+		res = getResources();
+		getWindow().setBackgroundDrawable(res.getDrawable(R.drawable.background));
 		
 		DownloadserviceToastHandler = new Handler()
 		{
@@ -280,4 +286,12 @@ public class DownloadActivity extends IDownloadActivity
 			mUpdateDownloaderService = null;
 		}
 	};
+	
+	@Override
+	public void onConfigurationChanged(Configuration newConfig)
+	{
+		getWindow().setBackgroundDrawable(res.getDrawable(R.drawable.background));
+        super.onConfigurationChanged(newConfig); 
+        Log.d(TAG, "Orientation Changed. New Orientation: "+newConfig.orientation);
+    }
 }

@@ -1,4 +1,4 @@
-package cmupdaterapp.misc;
+package cmupdaterapp.service;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -13,7 +13,6 @@ import org.json.JSONObject;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpUriRequest;
@@ -23,24 +22,20 @@ import cmupdaterapp.customTypes.FullUpdateInfo;
 import cmupdaterapp.customTypes.ThemeInfo;
 import cmupdaterapp.customTypes.ThemeList;
 import cmupdaterapp.customTypes.UpdateInfo;
-import cmupdaterapp.interfaces.IUpdateCheckHelper;
+import cmupdaterapp.interfaces.IUpdateServer;
 import cmupdaterapp.misc.Constants;
 import cmupdaterapp.misc.Log;
 import cmupdaterapp.misc.State;
-import cmupdaterapp.ui.R;
 import cmupdaterapp.utils.Preferences;
-import cmupdaterapp.utils.StringUtils;
 import cmupdaterapp.utils.SysUtils;
 
 import android.content.Context;
-import android.content.res.Resources;
 
-public class UpdateCheckHelper implements IUpdateCheckHelper
+public class PlainTextUpdateServer implements IUpdateServer
 {
-	private static final String TAG = "UpdateCheckHelper";
+	private static final String TAG = "PlainTextUpdateServer";
 
 	private Preferences mPreferences;
-	private Resources res;
 
 	private String systemMod;
 	private String systemRom;
@@ -55,14 +50,11 @@ public class UpdateCheckHelper implements IUpdateCheckHelper
 	
 	private Context context;
 	
-	private int PrimaryKeyTheme = -1;
-	
-	public UpdateCheckHelper(Context ctx)
+	public PlainTextUpdateServer(Context ctx)
 	{
 		Preferences p = mPreferences = Preferences.getPreferences(ctx);
 		systemMod = p.getBoardString();
 		context = ctx;
-		res = context.getResources();
 
 		if(systemMod == null)
 		{
@@ -105,7 +97,7 @@ public class UpdateCheckHelper implements IUpdateCheckHelper
 			romReq.addHeader("Cache-Control", "no-cache");
 			HttpResponse romResponse = romHttpClient.execute(romReq);
 			int romServerResponse = romResponse.getStatusLine().getStatusCode();
-			if (romServerResponse != HttpStatus.SC_OK)
+			if (romServerResponse != 200)
 			{
 				Log.d(TAG, "Server returned status code for ROM " + romServerResponse);
 				romException = true;
@@ -132,30 +124,20 @@ public class UpdateCheckHelper implements IUpdateCheckHelper
 						Log.d(TAG, "Theme " + t.name + " disabled. Continuing");
 						continue;
 					}
-					PrimaryKeyTheme = -1;
 					Log.d(TAG, "Trying to download ThemeInfos for " + t.url.toString());
 					URI ThemeUpdateServerUri = t.url;
 					HttpUriRequest themeReq = new HttpGet(ThemeUpdateServerUri);
 					themeReq.addHeader("Cache-Control", "no-cache");
-					try
+					HttpResponse themeResponse = themeHttpClient.execute(themeReq);
+					int themeServerResponse = themeResponse.getStatusLine().getStatusCode();
+					if (themeServerResponse != 200)
 					{
-						HttpResponse themeResponse = themeHttpClient.execute(themeReq);
-						int themeServerResponse = themeResponse.getStatusLine().getStatusCode();
-						if (themeServerResponse != HttpStatus.SC_OK)
-						{
-							Log.d(TAG, "Server returned status code for Themes " + themeServerResponse);
-							themeResponseEntity = themeResponse.getEntity();
-							continue;
-						}
+						Log.d(TAG, "Server returned status code for Themes " + themeServerResponse);
+						//themeException = true;
 						themeResponseEntity = themeResponse.getEntity();
-					}
-					catch (IOException ex)
-					{
-						//when theres an Exception Downloading the Theme, continue
-						Exceptions.add(res.getString(R.string.theme_download_exception) + t.name + ": " + ex.getMessage());
-						Log.e(TAG, "There was an error downloading Theme " + t.name + ": ", ex);
 						continue;
 					}
+					themeResponseEntity = themeResponse.getEntity();
 					//Read the Theme Infos
 					BufferedReader themeLineReader = new BufferedReader(new InputStreamReader(themeResponseEntity.getContent()),2 * 1024);
 					StringBuffer themeBuf = new StringBuffer();
@@ -165,10 +147,6 @@ public class UpdateCheckHelper implements IUpdateCheckHelper
 						themeBuf.append(themeLine);
 					}
 					themeLineReader.close();
-					
-					//Set the PrimaryKey for the Database
-					if (t.PrimaryKey > 0)
-						PrimaryKeyTheme = t.PrimaryKey;
 					
 					LinkedList<UpdateInfo> themeUpdateInfos = parseJSON(themeBuf);
 					retValue.themes.addAll(getThemeUpdates(themeUpdateInfos));
@@ -185,7 +163,6 @@ public class UpdateCheckHelper implements IUpdateCheckHelper
 		{
 			if (!romException)
 			{
-				PrimaryKeyTheme = -1;
 				//Read the Rom Infos
 				BufferedReader romLineReader = new BufferedReader(new InputStreamReader(romResponseEntity.getContent()),2 * 1024);
 				StringBuffer romBuf = new StringBuffer();
@@ -221,7 +198,6 @@ public class UpdateCheckHelper implements IUpdateCheckHelper
 		LinkedList<UpdateInfo> uis = new LinkedList<UpdateInfo>();
 
 		JSONObject mainJSONObject;
-		
 		try
 		{
 			mainJSONObject = new JSONObject(buf.toString());
@@ -254,9 +230,6 @@ public class UpdateCheckHelper implements IUpdateCheckHelper
 		
 		try
 		{
-			if (PrimaryKeyTheme > 0)
-				ui.PrimaryKey = PrimaryKeyTheme;
-
 			ui.board = new LinkedList<String>();
 			String[] Boards = obj.getString(Constants.JSON_BOARD).split("\\|");
 			for(String item:Boards)
@@ -292,31 +265,6 @@ public class UpdateCheckHelper implements IUpdateCheckHelper
 				catch (URISyntaxException e)
 				{
 					Log.e(TAG, "Unable to parse mirror url (" + mirrorList.getString(i) + ui.fileName + "). Ignoring this mirror", e);
-				}
-			}
-			
-			//Screenshots (only Themes)
-			ui.screenshots = new LinkedList<URI>();
-			//Only if there is a Screenshot Array in the JSON
-			if (obj.has(Constants.JSON_SCREENSHOTS))
-			{
-				JSONArray screenshots = obj.getJSONArray(Constants.JSON_SCREENSHOTS);
-				if (screenshots != null && screenshots.length() > 0)
-				{
-					for (int screenshotcounter = 0; screenshotcounter < screenshots.length(); screenshotcounter++)
-					{
-						try
-						{
-							if (!screenshots.isNull(screenshotcounter))
-								ui.screenshots.add(new URI(screenshots.getString(screenshotcounter)));
-							else
-								Log.d(TAG, "Theres an error in your JSON File. Maybe a , after the last screenshot");
-						}
-						catch (URISyntaxException e)
-						{
-							Log.e(TAG, "Unable to parse Screenshot url (" + screenshots.getString(screenshotcounter) + ") Theme: " + ui.name + ". Ignoring this Screenshot", e);
-						}
-					}
 				}
 			}
 		}
@@ -381,7 +329,7 @@ public class UpdateCheckHelper implements IUpdateCheckHelper
 			{
 				if (boardMatches(ui, systemMod))
 				{
-					if(showAllRomUpdates || StringUtils.compareVersions(Constants.RO_MOD_START_STRING + ui.version, systemRom))
+					if(showAllRomUpdates || SysUtils.StringCompare(systemRom, Constants.RO_MOD_START_STRING + ui.version))
 					{
 						if (branchMatches(ui, showExperimentalRomUpdates))
 						{
@@ -431,7 +379,7 @@ public class UpdateCheckHelper implements IUpdateCheckHelper
 						if (WildcardUsed || showAllThemeUpdates || (themeInfos.name != null && themeInfos.name != "" && ui.name.equalsIgnoreCase(themeInfos.name)))
 						{
 							//Version matches or name is *. If *, display all Versions
-							if(WildcardUsed || showAllThemeUpdates || StringUtils.compareVersions(ui.version, themeInfos.version))
+							if(WildcardUsed || showAllThemeUpdates || SysUtils.StringCompare(themeInfos.version, ui.version))
 							{
 								//Branch matches
 								if (branchMatches(ui, showExperimentalThemeUpdates))

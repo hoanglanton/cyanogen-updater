@@ -44,12 +44,6 @@
 	<string name="menu_delete_theme">Delete Theme Server</string>
 	<string name="menu_enable_theme">Enable Theme Server</string>
 	<string name="menu_disable_theme">Disable Theme Server</string>
-	<string name="menu_delete_all_themes">Delete all Theme Servers</string>
-	<string name="menu_delete_all_featured_themes">Delete all Featured Theme Servers</string>
-	<string name="menu_disable_all_themes">Disable all Theme Servers</string>
-	<string name="menu_disable_all_featured_themes">Disable all Featured Theme Servers</string>
-	<string name="menu_enable_all_themes">Enable all Theme Servers</string>
-	<string name="menu_enable_all_featured_themes">Enable all Featured Theme Servers</string>
 	
 	<string name="cancel_download_buton_text">Cancel Download</string>
 	<string name="confirm_download_cancelation_dialog_message">Are you sure you want to cancel the current download?</string>
@@ -273,9 +267,4 @@ PLEASE REBOOT INTO RECOVERY MANUALLY *BEFORE* APPLYING THIS UPDATE IF YOU WANT T
 	You can click on the open Browser Button below, to open up the Insturctions, or visit www.cyanogenmod.com</string>
 	<string name="alert_old_version_ok">Ok</string>
 	<string name="alert_old_version_browser">Open Browser</string>
-	<string name="screenshot_button_theme_text">Screenshots</string>
-	<string name="theme_download_exception">There was an error downloading Theme: </string>
-	<string name="theme_submenu_delete">Delete</string>
-	<string name="theme_submenu_enable">Enable</string>
-	<string name="theme_submenu_disable">Disable</string>
 </resources>

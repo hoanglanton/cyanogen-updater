@@ -13,6 +13,9 @@
 		<meta-data
 			android:name="com.a0soft.gphone.aTrackDog.dlURL"
 			android:value="http://code.google.com/p/cyanogen-updater/downloads/list" />
+		<!--<meta-data
+			android:name="com.a0soft.gphone.aTrackDog.testVersion"
+			android:value="3" />-->
 
 		<activity
 			android:name="cmupdaterapp.ui.MainActivity"
@@ -43,12 +46,6 @@
 		<activity
 			android:name="cmupdaterapp.ui.ThemeListNewActivity"
 			android:configChanges="orientation|keyboardHidden" />
-		<activity
-			android:name="cmupdaterapp.ui.ScreenshotActivity"
-			android:configChanges="orientation|keyboardHidden" />
-		<activity
-			android:name="cmupdaterapp.ui.ScreenshotDetailActivity"
-			android:configChanges="orientation|keyboardHidden" />	
 		<receiver android:name="cmupdaterapp.service.StartupReceiver">
 			<intent-filter>
 				<action android:name="android.intent.action.BOOT_COMPLETED"></action>
@@ -65,6 +62,4 @@
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 	<uses-permission android:name="android.permission.WAKE_LOCK" />
 	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-	<uses-permission android:name="android.permission.READ_PHONE_STATE" />
-	<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 </manifest>
