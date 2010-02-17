@@ -15,4 +15,6 @@ and
 
 to meet your needs
 
+Change graphics in /res/drawables/
+
 Finished ;)
