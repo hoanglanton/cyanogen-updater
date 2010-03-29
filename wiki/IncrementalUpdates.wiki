@@ -1,7 +1,7 @@
 Heres how to use incremental updates.
 
-Just add the new Section called "IncrementalUpdateList" to the Json. The Properties are the same as for normal Updates.
-The only difference is the new Property called "VersionForApply". This must match exactly the Version the user is currently running. If it matches, the incremental Update will be displayed.
+Just add the new Section called "!IncrementalUpdateList" to the Json. The Properties are the same as for normal Updates.
+The only difference is the new Property called "!VersionForApply". This must match exactly the Version the user is currently running. If it matches, the incremental Update will be displayed.
 
 {{{
 {
